@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <string>
-#include "TextBuffer.h"   // Member A (replace with their filename)
+#include "TextBuffer.h"   // Member A (replace with filename)
 #include "Command.h"      // Member B (unchanged)
 using namespace std;
 
@@ -34,7 +34,7 @@ inline bool bracketsMatch(char open, char close) {
            (open == '[' && close == ']');
 }
 
-// 0 = sab theek, warna pehli galat line ka number
+// 0 = all good otherwise error
 inline int checkBrackets(TEXT_BUFFER& buf) {
     BracketStack s;
     int total = buf.GetTotal();
@@ -147,7 +147,6 @@ public:
 // F5: SEARCH AND REPLACE
 // ===================================================
 
-// Word dhoondo, jin lines mein hai unke numbers dikhao
 inline void findWord(TEXT_BUFFER& buf, const string& word) {
     if (word.empty()) {
         cout << "Please enter a word to search." << endl;
@@ -174,8 +173,6 @@ inline string replaceInLine(string line, const string& oldWord, const string& ne
     return line;
 }
 
-// Saari lines mein replace. Har badli hui line ek Command ban kar undo stack mein jati hai.
-// UndoStack = Member B ki undo stack class (usme push(Command) hona chahiye)
 template <class UndoStack>
 void replaceAll(TEXT_BUFFER& buf, const string& oldWord, const string& newWord, UndoStack& undo) {
     if (oldWord.empty()) {
@@ -190,7 +187,7 @@ void replaceAll(TEXT_BUFFER& buf, const string& oldWord, const string& newWord, 
 
         string newLine = replaceInLine(oldLine, oldWord, newWord);
         buf.Edit_line(i, newLine);
-        undo.push(Command(edit_cmd, i, oldLine, newLine));   // <-- Member B ke naam se match karo
+        undo.push(Command(edit_cmd, i, oldLine, newLine));   // <-- match with Member B (pending)
         changed++;
     }
     cout << "Replaced in " << changed << " line(s)." << endl;
