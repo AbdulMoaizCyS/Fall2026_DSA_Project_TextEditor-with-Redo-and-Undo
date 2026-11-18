@@ -34,7 +34,7 @@ inline bool bracketsMatch(char open, char close) {
            (open == '[' && close == ']');
 }
 
-// 0 = sab theek, warna pehli galat line ka number
+// 0 = all good, otherwise first wrong line number
 inline int checkBrackets(TEXT_BUFFER& buf) {
     BracketStack s;
     int total = buf.GetTotal();
@@ -61,7 +61,7 @@ inline void runBracketChecker(TEXT_BUFFER& buf) {
 }
 
 // ===================================================
-// F6: MERGE SORT (recursion, undoable nahi)
+// F6: MERGE SORT (recursion, noy undoable)
 // ===================================================
 inline void mergeParts(string arr[], int left, int mid, int right) {
     int n1 = mid - left + 1;
@@ -164,18 +164,15 @@ inline void findWord(TEXT_BUFFER& buf, const string& word) {
     if (!found) cout << "\"" << word << "\" not found." << endl;
 }
 
-// Ek line mein har oldWord ko newWord se badal do
 inline string replaceInLine(string line, const string& oldWord, const string& newWord) {
     size_t pos = 0;
     while ((pos = line.find(oldWord, pos)) != string::npos) {
         line.replace(pos, oldWord.length(), newWord);
-        pos += newWord.length();   // aage barho, warna infinite loop
+        pos += newWord.length();   //goes to next, otherwise this will make infinite loop
     }
     return line;
 }
 
-// Saari lines mein replace. Har badli hui line ek Command ban kar undo stack mein jati hai.
-// UndoStack = Member B ki undo stack class (usme push(Command) hona chahiye)
 template <class UndoStack>
 void replaceAll(TEXT_BUFFER& buf, const string& oldWord, const string& newWord, UndoStack& undo) {
     if (oldWord.empty()) {
@@ -190,7 +187,7 @@ void replaceAll(TEXT_BUFFER& buf, const string& oldWord, const string& newWord, 
 
         string newLine = replaceInLine(oldLine, oldWord, newWord);
         buf.Edit_line(i, newLine);
-        undo.push(Command(edit_cmd, i, oldLine, newLine));   // <-- Member B ke naam se match karo
+        undo.push(Command(edit_cmd, i, oldLine, newLine));   // match to member B (pending)
         changed++;
     }
     cout << "Replaced in " << changed << " line(s)." << endl;
