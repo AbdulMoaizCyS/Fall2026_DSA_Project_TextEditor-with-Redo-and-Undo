@@ -20,6 +20,7 @@ class LoginMenu{
         bool run();                
         std::string GetUsername();
         std::string GetRole();
+        UserTable& GetUsers();
 };
 
 #endif
