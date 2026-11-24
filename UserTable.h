@@ -13,6 +13,7 @@ class UserTable{
     static const int SIZE = 10;
     UserNode* buckets[SIZE];
     static const std::string FileName;
+
     int HashFunction(const std::string& username);
 
     public:
@@ -21,11 +22,9 @@ class UserTable{
         UserNode* FindUser(const std::string& username);
         bool DeleteUser(const std::string& username);
         void DisplayAll();
-        void SaveToFile();
-        void LoadFromFile();
+        bool SaveToFile();
+        bool LoadFromFile();
         ~UserTable();
 };
-
-const std::string UserTable::FileName="Users.txt";
 
 #endif
