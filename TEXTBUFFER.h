@@ -32,7 +32,7 @@ public:
     // Deletes line, saves the deleted text in oldLine (for undo)
     bool Delete_line(int index, std::string& oldLine);
 
-    bool Get_line(int index, std::string& line);
+    string Get_line(int index, std::string& line);
 
     void Display();
 
